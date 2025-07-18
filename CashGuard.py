@@ -1,4 +1,4 @@
-#CashGuard | Computer vision
+#CashGuard | Computer vision ('q' to Entry version)
 from datetime import datetime
 import os, pandas as pd, mediapipe as mp, cv2 as cv, threading, keyboard as kb, pygame as pg
 
@@ -9,9 +9,7 @@ face_detection = mp_face.FaceDetection(model_selection=0, min_detection_confiden
 mp_draw = mp.solutions.drawing_utils
 
 cap = cv.VideoCapture(0)
-if not cap.isOpened():
-    print("Camera vey ila, aprm epdi?")
-    exit();
+if not cap.isOpened(): print("Camera vey ila, aprm epdi?"); exit()
 
 logs = []
 cashier_box = None
@@ -43,16 +41,14 @@ def password():
         if 'fred' in typed:
             print("🔐Password 'FRED' entered. Alarm stopped!")
             alarm_playing = False
-            pg.mixer.music.stop()
-            break
+            pg.mixer.music.stop(); break
 
 while cashier_box is None:
     _, frame = cap.read()
     results = face_detection.process(cv.cvtColor(frame, cv.COLOR_BGR2RGB))
     if results.detections:
         cashier_box = results.detections[0].location_data.relative_bounding_box
-        print("Cashier Photo capture over")
-        break
+        print("Cashier Photo capture over"); break
 print("🎬 Starting monitoring now. Press 'q' to stop and save...")
 
 while True:
@@ -111,7 +107,7 @@ while True:
     (text_width, text_height), _ = cv.getTextSize(text, cv.FONT_HERSHEY_SIMPLEX, 1, 2)
     cv.rectangle(frame, (15, 20), (15 + text_width + 10, 60), (0, 0, 0), -1)
     cv.putText(frame, text, (20, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-    cv.imshow("CashGuard | Computer Vision", frame)
+    cv.imshow("CashGuard | Computer Vision @samuel-raj-p", frame)
     if cv.waitKey(1) & 0xFF == ord('q'): break
 
 def remove_cons(df):
@@ -135,7 +131,6 @@ if os.path.exists(save_path):
         combined = remove_cons(pd.concat([old_df, new_df]).drop_duplicates(subset=["Timestamp", "Person"], keep="first"))
         combined.to_csv(save_path, index=False); print(combined.tail())
         print("✅ Merged and saved successfully at:", save_path)
-        
     except Exception as e: print("❌ Error during CSV merge:", e)
 else:
     try:
@@ -144,7 +139,5 @@ else:
         print("✅ New file saved at:", save_path)
     except Exception as e: print("❌ Error saving new CSV:", e)
 
-cap.release()
-print("📷 Camera closed.")
-cv.destroyAllWindows();
-print("👋 Meendum Santhippom.")
+cap.release(); print("📷 Camera closed.")
+cv.destroyAllWindows(); print("👋 Meendum Santhippom.")
