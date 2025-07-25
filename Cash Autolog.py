@@ -1,4 +1,4 @@
-# CashGuard | Computer vision (Auto-log version)
+# CashGuard | Computer vision (Web-cam Monitor)
 from datetime import datetime
 import sqlite3 as sql, pandas as pd, mediapipe as mp, cv2 as cv, threading, keyboard as kb, pygame as pg
 
